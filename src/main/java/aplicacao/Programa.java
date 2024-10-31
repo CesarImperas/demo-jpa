@@ -10,9 +10,6 @@ public class Programa {
 
 	public static void main(String[] args) {
 		
-		Pessoa p1 = new Pessoa(null, "Carlos da Silva", "carlos@gmail.com");
-		Pessoa p2 = new Pessoa(null, "Joaquim", "joaquim@gmail.com");
-		Pessoa p3 = new Pessoa(null, "Ana", "ana@gmail.com");
 		
 		// Nome da JPA (configurada no arquivo persistence.xml
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
@@ -20,18 +17,15 @@ public class Programa {
 		// Criação da EntityManager
 		EntityManager em = emf.createEntityManager();
 		
-		// Iniciar uma transação com o banco de dados
-		em.getTransaction().begin();
+		// Buscar um dado, a partir do seu Id (chave primária)
+		// Passando como parâmetro, a classe do objeto retornado, e o Id
+		Pessoa p = em.find(Pessoa.class, 2);
 		
-		// Pega o objeto e guarda no banco de dados
-		em.persist(p1);
-		em.persist(p2);
-		em.persist(p3);
-		
-		// Término da transação
-		em.getTransaction().commit();
-		
+		System.out.println(p);
 		System.out.println("Pronto!");
 
+		// Fechamento da conexão com o banco de dados
+		em.close();
+		emf.close();
 	}
 }
