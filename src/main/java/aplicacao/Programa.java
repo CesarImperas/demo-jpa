@@ -17,11 +17,22 @@ public class Programa {
 		// Criação da EntityManager
 		EntityManager em = emf.createEntityManager();
 		
-		// Buscar um dado, a partir do seu Id (chave primária)
-		// Passando como parâmetro, a classe do objeto retornado, e o Id
+		/* MANEIRA ERRADA (EXCEÇÃO)
+		Pessoa p = new Pessoa(2, null, null);
+		
+		// Remoção de um dado do banco de dados
+		em.remove(p);
+		
+		*/
+		
+		// MANEIRA CORRETA
+		
 		Pessoa p = em.find(Pessoa.class, 2);
 		
-		System.out.println(p);
+		em.getTransaction().begin();
+		em.remove(p);
+		em.getTransaction().commit();
+		
 		System.out.println("Pronto!");
 
 		// Fechamento da conexão com o banco de dados
